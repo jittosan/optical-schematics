@@ -11,6 +11,26 @@ class OpticalComponent:
     def draw(self, ax):
         pass  # To be overridden by subclasses for different components
 
+    def rotate(self, angle, center):
+        """ Rotate component position and orientation """
+        # Rotation matrix
+        angle_rad = np.radians(angle)
+        cos_theta, sin_theta = np.cos(angle_rad), np.sin(angle_rad)
+
+        # Translate point to origin
+        x_new = self.x - center[0]
+        y_new = self.y - center[1]
+
+        # Rotate coordinates
+        x_rot = x_new * cos_theta - y_new * sin_theta
+        y_rot = x_new * sin_theta + y_new * cos_theta
+
+        # Translate point back
+        self.x = x_rot + center[0]
+        self.y = y_rot + center[1]
+
+        # Rotate orientation (optional, if applicable)
+        self.orientation = (self.orientation + angle) % 360
 # Mirror component with shading
 class Mirror(OpticalComponent):
     def __init__(self, x, y, orientation):
@@ -109,9 +129,9 @@ class OpticalTable:
         fig, ax = plt.subplots()
         # Draw table as a grid of very small dots
         ax.set_aspect('equal')
-        # for x in range(1, self.cols+1):
-        #     for y in range(1, self.rows+1):
-        #         ax.plot(x, y, 'ko', markersize=2)  # Small black dots as mounting holes
+        for x in range(1, self.cols+1):
+            for y in range(1, self.rows+1):
+                ax.plot(x, y, 'ko', markersize=2)  # Small black dots as mounting holes
         
         # Draw components
         for component in self.components:
@@ -120,31 +140,32 @@ class OpticalTable:
         ax.set_xlim(0, self.cols+1)
         ax.set_ylim(0, self.rows+1)
         # plt.grid()
+        ax.spines['top'].set_visible(True)
+        ax.spines['right'].set_visible(True)
+        ax.spines['bottom'].set_visible(True)
+        ax.spines['left'].set_visible(True)
+        ax.tick_params(left=False, bottom=False, labelleft=True, labelbottom=False)
         plt.show()
+        
+    def rotate(self, angle):
+        """ Rotate all components and the optical grid by an angle """
+        center = (self.cols / 2, self.rows / 2)  # Rotate around the center of the grid
+        for component in self.components:
+            component.rotate(angle, center)
 
 
-# Example usage:
 table = OpticalTable(10, 6)
 
-# Components
+# Components (You can use any of the previously defined components like Mirror, Laser, etc.)
 mirror1 = Mirror(2, 3, 0)
 laser = Laser(1, 2, 0)
-pbs = PolarizingBeamSplitter(4, 3, 0)
-qwp = QuarterWavePlate(6, 2, 0)
-hwp = HalfWavePlate(6, 4, 0)
-iris = Iris(8, 3, 0)
-collimator = Collimator(9, 2, 0)
-end_block = EndBlock(9, 4, 0)
 
 # Add components to the table
 table.add_component(mirror1)
 table.add_component(laser)
-table.add_component(pbs)
-table.add_component(qwp)
-table.add_component(hwp)
-table.add_component(iris)
-table.add_component(collimator)
-table.add_component(end_block)
 
-# Draw the optical setup
+# Rotate the optical table and components by 45 degrees
+table.rotate(45)
+
+# Draw the rotated optical setup
 table.draw()
