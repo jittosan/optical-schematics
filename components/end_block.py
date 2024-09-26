@@ -11,10 +11,10 @@ class EndBlock(OpticalComponent):
         
         # Draw the bounding box
         outer_box = path.path(
-            path.moveto(*self._rp(-width / 2, -height / 2)),
-            path.lineto(*self._rp(width / 2, -height / 2)),
-            path.lineto(*self._rp(width / 2, height / 2)),
-            path.lineto(*self._rp(-width / 2, height / 2)),
+            path.moveto(*self._rp(-width / 2, 0)),
+            path.lineto(*self._rp(width / 2, 0)),
+            path.lineto(*self._rp(width / 2, height)),
+            path.lineto(*self._rp(-width / 2, height)),
             path.closepath()
         )
         c.stroke(outer_box, [style.linewidth.Thick, deco.filled([color.rgb.black])])

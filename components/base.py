@@ -6,6 +6,7 @@ class OpticalComponent:
         self.x = x
         self.y = y
         self.angle = angle # in degrees
+        self.dims = []
         
     def rotate(self, angle):
         self.angle = (self.angle + angle) % 360
@@ -19,7 +20,7 @@ class OpticalComponent:
         self.y = y
         
     def orient(self, angle):
-        self.angle = angle
+        self.angle = angle % 360
         
     def _rp(self, x, y):
         return self.x + x * cos(self._radians(self.angle)) - y * sin(self._radians(self.angle)), self.y + x * sin(self._radians(self.angle)) + y * cos(self._radians(self.angle))
@@ -28,7 +29,7 @@ class OpticalComponent:
         return angle * 3.14159 / 180
     
     def scale(self, scale):
-        raise NotImplementedError("This method should be overridden by subclasses")
+        self.dims = [dim * scale for dim in self.dims]
     
     def draw(self, c):
         raise NotImplementedError("This method should be overridden by subclasses")

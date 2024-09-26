@@ -9,22 +9,26 @@ class Mirror(OpticalComponent):
         height = 0.5
         width  = 2
         
-        # Draw the inner box
-        inner_box = path.path(
-            path.moveto(*self._rp(-width / 2, height / 2)),
-            path.lineto(*self._rp(width / 2, height / 2)),
-            path.lineto(*self._rp(width / 2, height / 4)),
-            path.lineto(*self._rp(-width / 2, height / 4)),
-            path.closepath()
-        )
-        c.stroke(inner_box, [style.linewidth.Thick, deco.stroked([color.grey(0.5)])])
-        
         # Draw the bounding box
         outer_box = path.path(
-            path.moveto(*self._rp(-width / 2, -height / 2)),
-            path.lineto(*self._rp(width / 2, -height / 2)),
-            path.lineto(*self._rp(width / 2, height / 2)),
-            path.lineto(*self._rp(-width / 2, height / 2)),
+            path.moveto(*self._rp(-width / 2, -height)),
+            path.lineto(*self._rp(width / 2, -height)),
+            path.lineto(*self._rp(width / 2, 0)),
+            path.lineto(*self._rp(-width / 2, 0)),
             path.closepath()
         )
+        c.fill(outer_box, [color.rgb.white])
         c.stroke(outer_box, [style.linewidth.Thick])
+        
+        # Draw the inner box
+        inner_box = path.path(
+            path.moveto(*self._rp(-width / 2, -height / 2)),
+            path.lineto(*self._rp(width / 2, -height / 2)),
+            path.lineto(*self._rp(width / 2, -height)),
+            path.lineto(*self._rp(-width / 2, -height)),
+            path.closepath()
+        )
+        c.fill(inner_box, [color.rgb.black])
+        c.stroke(inner_box, [style.linewidth.Thick])
+        
+        

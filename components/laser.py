@@ -8,13 +8,15 @@ class Laser(OpticalComponent):
     def draw(self, c):
         height = 0.5
         width  = 2
+        source_height = height / 2
+        source_width = source_height / 2
         
-        # Draw the inner box
+        # Draw the source
         laser_source = path.path(
-            path.moveto(*self._rp(-width / 4, -height / 2)),
-            path.lineto(*self._rp(width / 4, -height / 4)),
-            path.lineto(*self._rp(width / 4, height / 4)),
-            path.lineto(*self._rp(-width / 4, height / 2)),
+            path.moveto(*self._rp(width / 2, source_height / 2)),
+            path.lineto(*self._rp(width / 2 + source_width, source_height / 2)),
+            path.lineto(*self._rp(width / 2 + source_width, -source_height / 2)),
+            path.lineto(*self._rp(width / 2, -source_height / 2)),
             path.closepath()
         )
         c.stroke(laser_source, [style.linewidth.Thick, deco.filled([color.rgb.black])])

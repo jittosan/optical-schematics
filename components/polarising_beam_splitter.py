@@ -7,13 +7,7 @@ class PolarisingBeamSplitter(BeamSplitter):
         
     def draw(self, c):
         size = 2
-        
-        # draw diagonal line
-        line = path.path(
-            path.moveto(*self._rp(-size / 2, -size / 2)),
-            path.lineto(*self._rp(size / 2, size / 2))
-        )
-        
+
         # Draw the bounding box
         outer_box = path.path(
             path.moveto(*self._rp(-size / 2, -size / 2)),
@@ -22,4 +16,13 @@ class PolarisingBeamSplitter(BeamSplitter):
             path.lineto(*self._rp(-size / 2, size / 2)),
             path.closepath()
         )
-        c.stroke(outer_box, [style.linewidth.Thick, deco.filled([deco.stroked([color.rgb.grey])])])
+        c.fill(outer_box, [color.gray(0.8)])
+        c.stroke(outer_box, [style.linewidth.Thick])
+        
+        # draw diagonal line
+        line = path.path(
+            path.moveto(*self._rp(-size / 2, -size / 2)),
+            path.lineto(*self._rp(size / 2, size / 2))
+        )
+        c.stroke(line, [style.linewidth.Thick])
+        
