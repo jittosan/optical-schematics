@@ -1,14 +1,12 @@
 
-import numpy as np
-from matplotlib.transforms import Affine2D
+from math import cos, sin
 
-class OpticalComponent():
-    def __init__(self, name, x, y, angle):
-        self.name = name
+class OpticalComponent:
+    def __init__(self, x=0, y=0, angle=0):
         self.x = x
         self.y = y
-        self.angle = angle
-    
+        self.angle = angle # in degrees
+        
     def rotate(self, angle):
         self.angle = (self.angle + angle) % 360
         
@@ -20,11 +18,14 @@ class OpticalComponent():
         self.x = x
         self.y = y
         
-    def draw(self, ax):
-        pass  # To be overridden by subclasses for different components
+    def orient(self, angle):
+        self.angle = angle
         
-    def _compute_rotation(self, patch):
-        """ Rotate the symbol of a component around its center by an angle. """
-        transform = Affine2D().rotate_deg_around(self.x, self.y, angle) + ax.transData
-        patch.set_transform(transform)
-        return patch
+    def _rp(self, x, y):
+        return (self.x + x * cos(self._radians(self.angle)) - y * sin(self._radians(self.angle)), self.y + x * sin(self._radians(self.angle)) + y * cos(self._radians(self.angle)))
+    
+    def _radians(self, angle):
+        return angle * 3.14159 / 180
+    
+    def draw(self, c):
+        raise NotImplementedError("This method should be overridden by subclasses")
