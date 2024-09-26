@@ -1,4 +1,5 @@
 from pyx import canvas, path, deco, style, color
+import numpy as np
 from math import cos, sin
 
 c = canvas.canvas()
@@ -75,10 +76,17 @@ class Mirror(OpticalComponent):
                 x1, y1 = self._rp(i * width / 2, j * height / 2)
                 x2, y2 = self._rp(j * width / 2, -i * height / 2)
                 c.stroke(path.line(x1, y1, x2, y2), [style.linewidth.Thick])
+                
         # Draw the mirror line
         x1, y1 = self._rp(-1 * width / 2, height / 4)
         x2, y2 = self._rp(1 * width / 2, height / 4)
         c.stroke(path.line(x1, y1, x2, y2), [style.linewidth.Thick])
+        
+        # Draw the hashed strokes
+        for i in np.linspace(0, width, 20):
+            x1, y1 = self._rp(-1 * width / 2 + i, height / 2)
+            x2, y2 = self._rp(-1 * width / 2 + i + width* 2/20, height / 4)
+            c.stroke(path.line(x1, y1, x2, y2), [style.linewidth.Thin])
         
         
 class BeamSplitter(OpticalComponent):
@@ -94,7 +102,8 @@ class BeamSplitter(OpticalComponent):
                 x1, y1 = self._rp(i * size / 2, j * size / 2)
                 x2, y2 = self._rp(j * size / 2, -i * size / 2)
                 c.stroke(path.line(x1, y1, x2, y2), [style.linewidth.Thick])
-        # Draw the mirror line
+                
+        # Draw the beam split line
         x1, y1 = self._rp(size / 2, size / 2)
         x2, y2 = self._rp(-1 * size / 2, - size / 2)
         c.stroke(path.line(x1, y1, x2, y2), [style.linewidth.Thick])
@@ -149,6 +158,7 @@ polariser = Polariser(8, 1, 1, 2)
 collimator = Collimator(10, 2, 0.5)
 iris = Iris(2, 2, 45)
 beam_splitter.rotate(20)
+mirror.rotate(30)
 
 # Draw the components
 mirror.draw(c)
