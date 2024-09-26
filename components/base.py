@@ -22,10 +22,13 @@ class OpticalComponent:
         self.angle = angle
         
     def _rp(self, x, y):
-        return (self.x + x * cos(self._radians(self.angle)) - y * sin(self._radians(self.angle)), self.y + x * sin(self._radians(self.angle)) + y * cos(self._radians(self.angle)))
+        return self.x + x * cos(self._radians(self.angle)) - y * sin(self._radians(self.angle)), self.y + x * sin(self._radians(self.angle)) + y * cos(self._radians(self.angle))
     
     def _radians(self, angle):
         return angle * 3.14159 / 180
+    
+    def scale(self, scale):
+        raise NotImplementedError("This method should be overridden by subclasses")
     
     def draw(self, c):
         raise NotImplementedError("This method should be overridden by subclasses")

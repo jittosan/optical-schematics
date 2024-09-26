@@ -1,7 +1,7 @@
 from pyx import path, style, color, deco
 from .base import OpticalComponent
 
-class Mirror(OpticalComponent):
+class Laser(OpticalComponent):
     def __init__(self, x, y, angle):
         super().__init__(x, y, angle)
 
@@ -10,14 +10,14 @@ class Mirror(OpticalComponent):
         width  = 2
         
         # Draw the inner box
-        inner_box = path.path(
-            path.moveto(*self._rp(-width / 2, height / 2)),
-            path.lineto(*self._rp(width / 2, height / 2)),
-            path.lineto(*self._rp(width / 2, height / 4)),
-            path.lineto(*self._rp(-width / 2, height / 4)),
+        laser_source = path.path(
+            path.moveto(*self._rp(-width / 4, -height / 2)),
+            path.lineto(*self._rp(width / 4, -height / 4)),
+            path.lineto(*self._rp(width / 4, height / 4)),
+            path.lineto(*self._rp(-width / 4, height / 2)),
             path.closepath()
         )
-        c.stroke(inner_box, [style.linewidth.Thick, deco.stroked([color.grey(0.5)])])
+        c.stroke(laser_source, [style.linewidth.Thick, deco.filled([color.rgb.black])])
         
         # Draw the bounding box
         outer_box = path.path(
