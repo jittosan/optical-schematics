@@ -4,7 +4,7 @@ class Component:
     def __init__(self, x=0, y=0, angle=0):
         self.x = x
         self.y = y
-        self.angle = angle # in degrees
+        self.angle = angle % 360 # in degrees
         self.dims = []
         
     def rotate(self, angle):
@@ -22,7 +22,7 @@ class Component:
         self.angle = angle % 360
         
     def _rp(self, x, y):
-        return self.x + x * cos(self._radians(self.angle)) - y * sin(self._radians(self.angle)), self.y + x * sin(self._radians(self.angle)) + y * cos(self._radians(self.angle))
+        return self.x + x * cos(self._radians(self.angle)) + y * sin(self._radians(self.angle)), self.y - x * sin(self._radians(self.angle)) + y * cos(self._radians(self.angle))
     
     def _radians(self, angle):
         return angle * 3.14159 / 180

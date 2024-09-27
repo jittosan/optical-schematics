@@ -11,10 +11,10 @@ class Collimator(OpticalComponent):
         
         # Draw the bounding box
         outer_box = path.path(
-            path.moveto(*self._rp(-width / 2, 0)),
+            path.moveto(*self._rp(-width / 2, -height)),
+            path.lineto(*self._rp(width / 2, -height)),
             path.lineto(*self._rp(width / 2, 0)),
-            path.lineto(*self._rp(width / 2, height)),
-            path.arc(*self._rp(0, height), width / 2, self.angle + 0, self.angle + 180),
+            path.arc(*self._rp(0, 0), width / 2, -self.angle, 180-self.angle),
             path.closepath()
         )
         # define shading pattern ? 

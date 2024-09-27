@@ -6,26 +6,21 @@ class Laser(OpticalSource):
     def __init__(self, x, y, angle):
         super().__init__(x, y, angle)
         
-    def propagate(self, c):
-        # define point source for laser, and the propagating beam vector
-        width = 2
-        source_x = self.x + width / 2
-        source_y = self.y
-        pt = path.path(path.moveto(*self._rp(source_x, source_y)))
-        beam_vec = (sin(self.angle), cos(self.angle))
+    def source(self):
+        return self.x, self.y, self.angle
 
     def draw(self, c):
-        height = 1
-        width  = 2
-        source_height = height / 2
-        source_width = width / 10
+        height = 2
+        width  = 1
+        source_height = height / 10
+        source_width = width / 2
         
         # Draw the source
         laser_source = path.path(
-            path.moveto(*self._rp(width / 2, source_height / 2)),
-            path.lineto(*self._rp(width / 2 - source_width, source_height / 2)),
-            path.lineto(*self._rp(width / 2 - source_width, -source_height / 2)),
-            path.lineto(*self._rp(width / 2, -source_height / 2)),
+            path.moveto(*self._rp(-source_width / 2, height / 2 - source_height)),
+            path.lineto(*self._rp(source_width / 2, height / 2 - source_height)),
+            path.lineto(*self._rp(source_width / 2, height / 2)),
+            path.lineto(*self._rp(-source_width / 2, height / 2)),
             path.closepath()
         )
         c.fill(laser_source, [color.rgb.black])
@@ -34,9 +29,9 @@ class Laser(OpticalSource):
         # Draw the bounding box
         outer_box = path.path(
             path.moveto(*self._rp(-width / 2, -height / 2)),
-            path.lineto(*self._rp(width / 2 - source_width, -height / 2)),
-            path.lineto(*self._rp(width / 2 - source_width, height / 2)),
-            path.lineto(*self._rp(-width / 2, height / 2)),
+            path.lineto(*self._rp(width / 2, -height / 2)),
+            path.lineto(*self._rp(width / 2, height / 2 - source_height)),
+            path.lineto(*self._rp(-width / 2, height / 2 - source_height)),
             path.closepath()
         )
         c.fill(outer_box, [color.rgb.white])
