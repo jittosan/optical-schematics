@@ -6,7 +6,7 @@ class RbCell(MagnetometryComponent):
         super().__init__(x, y, angle)
         
     def draw(self, c):
-        size = 1
+        size = 4
 
         # Draw the bounding box
         outer_box = path.path(
@@ -18,3 +18,4 @@ class RbCell(MagnetometryComponent):
         )
         c.fill(outer_box, [color.rgb.blue, color.transparency(0.8)])
         c.stroke(outer_box, [style.linewidth.Thick])
+        return outer_box

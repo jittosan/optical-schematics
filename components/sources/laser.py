@@ -1,9 +1,18 @@
+from math import sin, cos, pi
 from pyx import path, style, color, deco
 from .base import OpticalSource
 
 class Laser(OpticalSource):
     def __init__(self, x, y, angle):
         super().__init__(x, y, angle)
+        
+    def propagate(self, c):
+        # define point source for laser, and the propagating beam vector
+        width = 2
+        source_x = self.x + width / 2
+        source_y = self.y
+        pt = path.path(path.moveto(*self._rp(source_x, source_y)))
+        beam_vec = (sin(self.angle), cos(self.angle))
 
     def draw(self, c):
         height = 1
