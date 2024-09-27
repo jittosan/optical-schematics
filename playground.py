@@ -1,4 +1,5 @@
 from components import *
+from setup import OpticalSystem
 from pyx import canvas, path, color
 
 c = canvas.canvas()
