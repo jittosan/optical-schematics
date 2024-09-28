@@ -69,7 +69,7 @@ class OpticalTable:
                     if comp_name == skip_comp:
                         continue
                     try:
-                        intersection = component.interact(beam, angle, c)
+                        intersection = component.interact(beam, angle)
                         # beam interacts with component
                         if intersection is not None:
                             int_beam, int_angle = intersection
@@ -78,7 +78,7 @@ class OpticalTable:
                                 beam = int_beam
                                 new_angle = int_angle
                                 new_skip_comp = comp_name
-                    except AttributeError:
+                    except NotImplementedError:
                         pass
                 print('DONE:', beam, new_angle)
                 # draw current beam segment

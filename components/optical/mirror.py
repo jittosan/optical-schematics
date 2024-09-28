@@ -8,7 +8,7 @@ class Mirror(OpticalComponent):
         # [height, width]
         self.dims = [0.5, 2]
         
-    def interact(self, beam, angle, c):
+    def interact(self, beam, angle):
         height = self.dims[0]
         width  = self.dims[1]
         
@@ -21,22 +21,6 @@ class Mirror(OpticalComponent):
             path.closepath()
         )
         
-        
-        
-        
-        # l1, l2 = beam.intersect(outer_box)
-        # if l1 != []: 
-        #     # print(dir(l1[0]))
-        #     a = beam.at(l1[0])
-        #     # print(dir(a))
-        #     print(a)
-        #     # print(dir(a[0]))
-        #     b = path.path(path.moveto(0, 0))
-        #     print(b.atbegin())
-        #     c = path.path(path.moveto(*b.atbegin()))
-        # # for segment in beam.at(l1):
-        # #     c.stroke(segment, [style.linewidth.Thin, color.rgb.red])
-        
         # inner box that reflects the beam
         inner_box = path.path(
             path.moveto(*self._rp(-width / 2, -height / 2)),
@@ -45,7 +29,7 @@ class Mirror(OpticalComponent):
             path.lineto(*self._rp(-width / 2, -height)),
             path.closepath()
         )
-        
+
         new_beam = compute_intersected_beam(beam, outer_box)
         if new_beam is None:
             return beam, None
