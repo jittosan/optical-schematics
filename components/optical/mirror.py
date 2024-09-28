@@ -33,9 +33,7 @@ class Mirror(OpticalComponent):
         new_beam = compute_intersected_beam(beam, outer_box)
         if new_beam is None:
             return beam, None
-        # print(f"INCIDENT: {angle} | NORMAL : {self.angle} | REFLECTED: {2 * self.angle - angle + 180}")
         return new_beam, [(2 * self.angle - angle + 180) % 360]
-        # return new_beam, None
         
     def draw(self, c):
         height = self.dims[0]
