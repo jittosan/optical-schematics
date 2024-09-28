@@ -14,6 +14,7 @@ setup.attach("Polariser1", Polariser(24, 8, 0))
 setup.attach("PBS1", PolarisingBeamSplitter(24, 12, 0))
 setup.attach("Polariser2", Polariser(24, 16, 0))
 setup.attach("EndBlock1", EndBlock(30, 12, -90))
+setup.attach("EndBlock2", EndBlock(20, 12, 90))
 setup.attach("Mirror4", Mirror(24, 42, 180))
 
 setup.attach("Probe Laser", Laser(1, 10, 0))
@@ -23,7 +24,7 @@ setup.attach("Mirror7", Mirror(5, 30, 135))
 setup.attach("Polariser3", Polariser(8, 30, 90))
 setup.attach("PBS2", PolarisingBeamSplitter(11, 30, -90))
 setup.attach("Collimator1", Collimator(14, 30, 90))
-setup.attach("EndBlock2", EndBlock(11, 25, 0))
+setup.attach("EndBlock3", EndBlock(11, 25, 0))
 
 # include magnetometry components
 setup.attach("MuMetalShield1", MuMetalShield(24, 30, 0))
