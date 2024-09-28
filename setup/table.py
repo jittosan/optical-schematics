@@ -61,7 +61,6 @@ class OpticalTable:
             def propagate(beam, angle, skip_comp=None):
                 # compute the end point of the beam if it were to go all the way across the table
                 beam = compute_outgoing_beam(beam, angle)
-                print(beam)
                 new_angle = None
                 new_skip_comp = skip_comp
                 # check intersection of beam with all components
@@ -80,7 +79,6 @@ class OpticalTable:
                                 new_skip_comp = comp_name
                     except NotImplementedError:
                         pass
-                print('DONE:', beam, new_angle)
                 # draw current beam segment
                 c.stroke(beam, [color.rgb.red, style.linewidth(0.2)])
                 # end propagation if new_angle is None
@@ -88,8 +86,7 @@ class OpticalTable:
                     return
                 # for each new angle, propagate the beam
                 for a in new_angle:
-                    return propagate(path.path(path.moveto(*beam.atend())), a, new_skip_comp)
-                    pass
+                    propagate(path.path(path.moveto(*beam.atend())), a, new_skip_comp)
                 
             # propagate from currently selected source component
             propagate(beam, angle, item)
