@@ -1,12 +1,28 @@
 from pyx import path, style, color, deco
 from .base import OpticalComponent
+from utils import compute_intersected_beam
 
 class BeamSplitter(OpticalComponent):
     def __init__(self, x, y, angle):
         super().__init__(x, y, angle)
+        # [size]
+        self.dims = [2]
+        
+    def interact(self, beam, angle):
+        size = self.dims[0] / 2
+        
+        # define surface of interaction
+        surface = path.path(
+            path.moveto(*self._rp(-size / 2, -size / 2)),
+            path.lineto(*self._rp(size / 2, size / 2))
+        )
+        new_beam = compute_intersected_beam(beam, surface)
+        if new_beam is None:
+            return beam, None
+        return new_beam, [angle, (angle + 90) % 360]
 
     def draw(self, c):
-        size = 2
+        size = self.dims[0]
 
         # Draw the bounding box
         outer_box = path.path(
@@ -24,4 +40,4 @@ class BeamSplitter(OpticalComponent):
             path.moveto(*self._rp(-size / 2, -size / 2)),
             path.lineto(*self._rp(size / 2, size / 2))
         )
-        c.stroke(line, [style.linewidth.Thick])
+        c.stroke(line, [style.linewidth.Thick, color.rgb.green])
